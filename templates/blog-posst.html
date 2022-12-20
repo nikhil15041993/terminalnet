@@ -1,0 +1,103 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% include "header.html" %}
+<style xmlns="http://www.w3.org/1999/html">
+.avatar {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.avatar1 {
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+  border-radius: 30%;
+}
+
+</style>
+
+    {% if all_posts.img == True %}
+<article class="blog-post px-3 py-5 p-md-5">
+		    <div class="container">
+                <center> <h2 class="title mb-2">{{all_posts.title}}</h2></center>
+                <center><img alt="." class="avatar1" src="{{all_posts.author.img}}"> By {{all_posts.author.name}} Published on {{all_posts.date}}</center>
+			    <div class="blog-post-body">
+				   <figure class="blog-banner">
+				        </figure>
+                    <div class="boxed">
+                         <center><h6 class="title mb-2">{{all_posts.subtitle}}</h6></center>
+                      <a href=""><img  src="data:;base64,{{all_post.img|b64encode}}"  class="img-fluid" width="500" height="250" align="center"></a>
+                    <p>{{all_posts.body|safe}}</p></div>
+                </div><!--//container-->
+                <br>
+				  <div class="row">
+                            <div class="col-md-12">
+                                <nav aria-label="Page navigation">
+                                    <h4>Leave a Comment</h4>
+                                  <div class="">
+                                  {{ wtf.quick_form(comment, novalidate=True, button_map={"submit": "primary"}) }}
+                                   </div>
+                                    <br>
+                                <ul class="commentList">
+                                    <div class="commenterImage">
+                                    {% for comment in all_posts.comments %}
+                                    <div class="commentText">
+                                    <img alt="." class="avatar" src="{{comment.comment_author.img}}">&nbsp;&nbsp;{{comment.text|safe}}<br>
+                                    <span class="date sub-text"> .{{comment.comment_author.name}} <i class="fa fa-envelope"></i>{{comment.comment_author.email}}</span>
+                                    </div>
+                                    </div>
+                                    </ul>
+                                    <hr>
+
+                                {%endfor%}
+
+                                </nav>
+                            </div>
+                  </div>
+                    </center>
+            </div>
+</article>
+{% else %}
+
+<article class="blog-post px-3 py-5 p-md-5">
+		    <div class="container">
+                <center> <h2 class="title mb-2">{{all_posts.title}}</h2></center>
+                <center><img alt="." class="avatar1" src="{{all_posts.author.img}}"> By {{all_posts.author.name}} Published on {{all_posts.date}}</center>
+			    <div class="blog-post-body">
+				   <figure class="blog-banner">
+				        </figure>
+                    <div class="boxed">
+                        <center> <h6 class="title mb-2">{{all_posts.subtitle}}</h6></center>
+                      <p>{{all_posts.body|safe}}</p></div>
+                </div><!--//container-->
+                <br>
+				  <div class="row">
+                            <div class="col-md-12">
+                                <nav aria-label="Page navigation">
+                                    <h4>Leave a Comment</h4>
+                                  <div class="">
+                                  {{ wtf.quick_form(comment, novalidate=True, button_map={"submit": "primary"}) }}
+                                   </div>
+                                </nav>
+
+                                    <br>
+                                  {% for comment in all_posts.comments %}
+                                <ul class="commentList">
+                                    <div class="commenterImage">
+                                    <div class="commentText">
+                                    <img alt="." class="avatar" src="{{comment.comment_author.img}}">&nbsp;&nbsp;{{comment.comment_author.name}}<br>
+                                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{comment.text|safe}}</p>
+<!--                                    <span class="date sub-text">  <i class="fa fa-envelope"></i>{{comment.comment_author.email}}</span>-->
+                                    </div>
+                                         <hr>
+                                    </div>
+                                </ul>
+                                {%endfor%}
+
+                            </div>
+                  </div>
+
+            </div>
+</article>
+{% endif %}
+{% include "footer.html" %}
